@@ -318,7 +318,8 @@ export default function Home() {
       if (
         triggerEl &&
         triggerEl.classList &&
-        (triggerEl.classList.contains("stagger-grid") || triggerEl.classList.contains("card-3d-scroll"))
+        (triggerEl.classList.contains("stagger-grid") ||
+          (triggerEl.classList.contains("card-3d-scroll") && triggerEl.closest(".stagger-grid")))
       ) {
         st.kill();
       }
