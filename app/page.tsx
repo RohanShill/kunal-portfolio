@@ -351,13 +351,12 @@ export default function Home() {
             opacity: 1,
             filter: "blur(0px)",
             stagger: isMobile ? 0.08 : 0.15,
+            duration: 1.2,
             ease: "power2.out",
             scrollTrigger: {
               trigger: grid,
               start: "top 88%",
-              end: "bottom 92%",
-              scrub: isMobile ? 0.8 : 1.2,
-              invalidateOnRefresh: true,
+              once: true,
             }
           }
         );
