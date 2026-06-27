@@ -1,26 +1,322 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  
+  --color-gold: #d4af37;
+  --color-gold-hover: #f3e5ab;
+  --color-obsidian: #0b0b0c;
+  --color-charcoal: #121214;
+  --color-card: #18181c;
+  --color-crimson: #e50914;
+  --color-crimson-hover: #ff1f2a;
+  
+  --shadow-gold-glow: 0 8px 30px rgba(212, 175, 55, 0.15);
+  --shadow-crimson-glow: 0 8px 30px rgba(229, 9, 20, 0.2);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Base custom styles */
+body {
+  background-color: #0b0b0c;
+  color: #f5f5f7;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+section[id] {
+  scroll-margin-top: 85px; /* height of fixed header to prevent overlap */
+}
+
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
 }
+::-webkit-scrollbar-track {
+  background: #0b0b0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #252528;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Keyframe animations */
+@keyframes zoomBg {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes scrollMouse {
+  0% {
+    top: 8px;
+    opacity: 1;
+  }
+  50% {
+    top: 24px;
+    opacity: 0.3;
+  }
+  100% {
+    top: 8px;
+    opacity: 1;
+  }
+}
+
+.animate-zoomBg {
+  animation: zoomBg 20s infinite alternate ease-in-out;
+}
+
+.animate-scrollMouse {
+  animation: scrollMouse 1.8s infinite ease-in-out;
+}
+
+/* Scroll reveal animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom animation keyframes */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 3D Perspective Scroll Reveal & Hover Tilt */
+.reveal-3d-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.reveal-3d {
+  opacity: 0;
+  transform: rotateX(15deg) translateY(40px) translateZ(-50px);
+  transform-origin: center top;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+}
+
+.reveal-3d.revealed {
+  opacity: 1;
+  transform: rotateX(0deg) translateY(0) translateZ(0);
+}
+
+.card-3d-scroll {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
+.card-3d-scroll:hover {
+  transform: translateY(-8px) rotateX(4deg) rotateY(-2deg) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Cinematic Film Grain Overlay */
+.film-grain {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/%3E%3C/svg%3E') repeat;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain-animation 8s steps(10) infinite;
+}
+
+@keyframes grain-animation {
+  0%, 100% { transform:translate(0, 0); }
+  10% { transform:translate(-5%, -10%); }
+  20% { transform:translate(-15%, 5%); }
+  30% { transform:translate(7%, -25%); }
+  40% { transform:translate(-5%, 25%); }
+  50% { transform:translate(-15%, 10%); }
+  60% { transform:translate(15%, 0%); }
+  70% { transform:translate(0%, 15%); }
+  80% { transform:translate(3%, 35%); }
+  90% { transform:translate(-10%, 10%); }
+}
+
+/* Glass Sweep Studio Light Reflection */
+.glass-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.12) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.glass-sweep:hover::after {
+  left: 150%;
+  transition: left 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Typography Line Mask Reveals */
+.line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* Lenis smooth scrolling body compatibility */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Luxury GPU-Accelerated Image Reveal Animations */
+.reveal-diagonal {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-diagonal.revealed {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.reveal-slice {
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-slice.revealed {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.reveal-triangle {
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-triangle.revealed {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.reveal-circle {
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-circle.revealed {
+  clip-path: circle(100% at 50% 50%);
+}
+
+/* Image reveal child transitions */
+.reveal-diagonal img, 
+.reveal-slice img, 
+.reveal-triangle img, 
+.reveal-circle img {
+  transform: scale(0.92) rotate(3deg);
+  filter: blur(12px) brightness(0.7);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-diagonal.revealed img, 
+.reveal-slice.revealed img, 
+.reveal-triangle.revealed img, 
+.reveal-circle.revealed img {
+  transform: scale(1) rotate(0deg);
+  filter: blur(0px) brightness(1);
+}
+
+/* Gold Underline Animation */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #d4af37;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-underline.revealed::after {
+  transform: scaleX(1);
+}
+
+
+
