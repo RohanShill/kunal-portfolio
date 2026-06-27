@@ -137,11 +137,13 @@ export default function Home() {
     const timelineCards = document.querySelectorAll(".timeline-card");
     timelineCards.forEach((card, idx) => {
       const isEven = idx % 2 === 0;
+      const isMobile = window.innerWidth < 768;
+      
       gsap.fromTo(card,
         {
           opacity: 0,
-          x: isEven ? -150 : 150,
-          rotateY: isEven ? 20 : -20,
+          x: isMobile ? (isEven ? -20 : 20) : (isEven ? -60 : 60),
+          rotateY: isMobile ? (isEven ? 5 : -5) : (isEven ? 12 : -12),
           rotateX: 8,
           scale: 0.95,
           filter: "blur(12px)",
@@ -153,11 +155,12 @@ export default function Home() {
           rotateX: 0,
           scale: 1,
           filter: "blur(0px)",
+          duration: 1.2,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: card,
-            start: "top 85%",
-            end: "top 55%",
-            scrub: 1.0,
+            start: "top 88%",
+            once: true,
           }
         }
       );
