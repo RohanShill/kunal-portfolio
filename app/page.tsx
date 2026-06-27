@@ -288,7 +288,11 @@ export default function Home() {
       ScrollTrigger.refresh();
     };
     
-    window.addEventListener("load", refreshST);
+    if (document.readyState === "complete") {
+      refreshST();
+    } else {
+      window.addEventListener("load", refreshST);
+    }
     const t1 = setTimeout(refreshST, 600);
     const t2 = setTimeout(refreshST, 1500);
     const t3 = setTimeout(refreshST, 3000);
@@ -912,13 +916,13 @@ export default function Home() {
               
               <div className="relative w-full h-full block">
                 <div className="editorial-stack-card absolute inset-0 w-full h-full rounded-md overflow-hidden shadow-2xl border border-white/10 bg-charcoal z-30">
-                  <Image src="/01.jpg" alt="Editorial Card 1" fill className="object-cover" />
+                  <Image src="/01.jpg" alt="Editorial Card 1" fill className="object-cover" onLoad={() => ScrollTrigger.refresh()} />
                 </div>
                 <div className="editorial-stack-card absolute inset-0 w-full h-full rounded-md overflow-hidden shadow-2xl border border-white/10 bg-charcoal z-20">
-                  <Image src="/02.jpg" alt="Editorial Card 2" fill className="object-cover" />
+                  <Image src="/02.jpg" alt="Editorial Card 2" fill className="object-cover" onLoad={() => ScrollTrigger.refresh()} />
                 </div>
                 <div className="editorial-stack-card absolute inset-0 w-full h-full rounded-md overflow-hidden shadow-2xl border border-white/10 bg-charcoal z-10">
-                  <Image src="/03.jpg" alt="Editorial Card 3" fill className="object-cover" />
+                  <Image src="/03.jpg" alt="Editorial Card 3" fill className="object-cover" onLoad={() => ScrollTrigger.refresh()} />
                 </div>
               </div>
             </div>
@@ -962,6 +966,7 @@ export default function Home() {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-all duration-500"
+                    onLoad={() => ScrollTrigger.refresh()}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-obsidian/92 via-obsidian/40 to-obsidian/15 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8">
                     <h4 className="font-serif text-xl font-bold text-white mb-1 translate-y-[15px] group-hover:translate-y-0 transition-all duration-300">

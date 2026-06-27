@@ -41,7 +41,11 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
       ScrollTrigger.refresh();
     };
 
-    window.addEventListener("load", refreshScroll);
+    if (document.readyState === "complete") {
+      refreshScroll();
+    } else {
+      window.addEventListener("load", refreshScroll);
+    }
     const t1 = setTimeout(refreshScroll, 500);
     const t2 = setTimeout(refreshScroll, 1200);
     const t3 = setTimeout(refreshScroll, 2500);
