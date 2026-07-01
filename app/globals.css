@@ -153,6 +153,10 @@ section[id] {
   border-color: rgba(212, 175, 55, 0.3) !important;
 }
 
+.card-3d-scroll, .timeline-card {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease !important;
+}
+
 /* Cinematic Film Grain Overlay */
 .film-grain {
   position: fixed;

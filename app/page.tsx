@@ -166,6 +166,37 @@ export default function Home() {
       );
     });
 
+    // 4.5 Individual 3D scroll card reveals (Showreel, Contact panels)
+    const singleCards = document.querySelectorAll(".card-3d-scroll:not(.stagger-grid .card-3d-scroll):not(.timeline-card)");
+    singleCards.forEach((card) => {
+      gsap.fromTo(card,
+        {
+          transformPerspective: 2500,
+          y: isMobile ? 50 : 120,
+          rotateX: isMobile ? 8 : 18,
+          rotateY: isMobile ? -4 : -10,
+          scale: isMobile ? 0.95 : 0.9,
+          opacity: 0,
+          filter: `blur(${isMobile ? 8 : 20}px)`,
+        },
+        {
+          y: 0,
+          rotateX: 0,
+          rotateY: 0,
+          scale: 1,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 1.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            once: true,
+          }
+        }
+      );
+    });
+
     // 5. Scroll reveals trigger (general fades, 3D reveals, and clip-path image reveals)
     const reveals = document.querySelectorAll(".reveal-on-scroll, .reveal-3d, .reveal-diagonal, .reveal-slice, .reveal-triangle, .reveal-circle");
     reveals.forEach((el) => {
@@ -747,7 +778,7 @@ export default function Home() {
             </div>
 
             {/* Video Card */}
-            <div className="max-w-[960px] mx-auto rounded-md overflow-hidden shadow-2xl relative aspect-[16/9] group reveal-3d card-3d-scroll magnetic-hover glass-sweep">
+            <div className="max-w-[960px] mx-auto rounded-md overflow-hidden shadow-2xl relative aspect-[16/9] group card-3d-scroll magnetic-hover glass-sweep">
               <Image
                 src="/03.jpg"
                 alt="Showreel Thumbnail"
@@ -955,7 +986,7 @@ export default function Home() {
                 <div
                   key={item.src}
                   onClick={() => openLightbox(item.src)}
-                  className={`relative aspect-[4/5] rounded-sm overflow-hidden shadow-md bg-card cursor-zoom group reveal-3d card-3d-scroll magnetic-hover glass-sweep ${
+                  className={`relative aspect-[4/5] rounded-sm overflow-hidden shadow-md bg-card cursor-zoom group card-3d-scroll magnetic-hover glass-sweep ${
                     index === 0 ? "reveal-diagonal" :
                     index === 1 ? "reveal-slice" :
                     index === 2 ? "reveal-triangle" :
@@ -1162,7 +1193,7 @@ export default function Home() {
               </div>
 
               {/* Form Panel */}
-              <div className="bg-card p-8 md:p-12 rounded-lg border border-white/3 shadow-2xl reveal-3d card-3d-scroll">
+              <div className="bg-card p-8 md:p-12 rounded-lg border border-white/3 shadow-2xl card-3d-scroll">
                 <form onSubmit={handleFormSubmit} className="flex flex-col gap-6">
                   {/* Access key Web3forms */}
                   <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
